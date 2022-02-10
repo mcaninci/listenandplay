@@ -21,6 +21,7 @@ namespace listenandplay
         private WaveOutEvent player;
         private bool listining = false;
         private Stopwatch stopWatch;
+        private Stopwatch stopWatchDelay;
         private int silince, delay;
         private string voicePath;
         public Form1()
@@ -30,7 +31,7 @@ namespace listenandplay
             var device = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
             comboBox1.Items.AddRange(device.ToArray());
             stopWatch = new Stopwatch();
-
+            stopWatchDelay = new Stopwatch();
             player = new WaveOutEvent();
 
 
@@ -80,9 +81,18 @@ namespace listenandplay
                             //wait delay time and play music
                             stopWatch.Stop();
                             stopWatch.Reset();
-                            lblstatus.Text = "Delay time countdown is starting. The application will play selected voice after " + delay + " second " ;
-                            Thread.Sleep(delay * 1000);
-                            playVoice();
+                   
+                          this.lblstatus.BeginInvoke((MethodInvoker)delegate () { this.lblstatus.Text = "Delay time countdown is starting. The application will play selected voice after " + delay + " second "; });
+                            Task.Run(async () =>
+                            {
+                                Thread.Sleep(delay * 1000);
+                                playVoice();
+
+                                this.lblstatus.BeginInvoke((MethodInvoker)delegate () { this.lblstatus.Text = "The application will play selected voice "; });
+
+                            });
+                           
+                            listining = false;
                         }
                     }
 
@@ -90,6 +100,7 @@ namespace listenandplay
                 progressBar1.Value = (devicevalue - ignore) < 0 ? 0 : devicevalue - ignore;
             }
         }
+
 
         private void playVoice()
         {
@@ -102,6 +113,9 @@ namespace listenandplay
 
         }
 
+
+
+        #region UI button config
         private void button2_Click(object sender, EventArgs e)
         {
             player.Stop();
@@ -110,12 +124,8 @@ namespace listenandplay
             txtdelay.Enabled = true;
             txtsilence.Enabled = true;
             button1.Enabled = true;
+            lblstatus.Text = "";
             listining = false;
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -198,5 +208,6 @@ namespace listenandplay
             }
            
         }
+        #endregion
     }
 }

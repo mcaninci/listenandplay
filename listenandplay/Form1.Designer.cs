@@ -30,6 +30,7 @@ namespace listenandplay
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.btnStart = new System.Windows.Forms.Button();
             this.btnstop = new System.Windows.Forms.Button();
@@ -83,7 +84,7 @@ namespace listenandplay
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(175, 32);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(417, 33);
+            this.comboBox1.Size = new System.Drawing.Size(543, 33);
             this.comboBox1.TabIndex = 3;
             // 
             // label1
@@ -98,7 +99,7 @@ namespace listenandplay
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 10;
+            this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label2
@@ -142,18 +143,18 @@ namespace listenandplay
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(35, 98);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(148, 25);
+            this.label5.Size = new System.Drawing.Size(241, 25);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Silence Time: ";
+            this.label5.Text = "Silence Time (Second): ";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(329, 98);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(126, 25);
+            this.label6.Size = new System.Drawing.Size(213, 25);
             this.label6.TabIndex = 10;
-            this.label6.Text = "Delay Time:";
+            this.label6.Text = "Delay Time(Second):";
             // 
             // label7
             // 
@@ -171,7 +172,6 @@ namespace listenandplay
             this.txtsilence.Size = new System.Drawing.Size(198, 31);
             this.txtsilence.TabIndex = 12;
             this.txtsilence.Text = "20";
-            this.txtsilence.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             this.txtsilence.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtsilence_KeyPress);
             // 
             // txtdelay
@@ -214,7 +214,7 @@ namespace listenandplay
             // lblstatus
             // 
             this.lblstatus.AutoSize = true;
-            this.lblstatus.Location = new System.Drawing.Point(563, 510);
+            this.lblstatus.Location = new System.Drawing.Point(35, 726);
             this.lblstatus.Name = "lblstatus";
             this.lblstatus.Size = new System.Drawing.Size(0, 25);
             this.lblstatus.TabIndex = 16;
@@ -241,8 +241,12 @@ namespace listenandplay
             this.Controls.Add(this.btnstop);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.progressBar1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1296, 873);
+            this.MinimumSize = new System.Drawing.Size(1296, 873);
             this.Name = "Form1";
-            this.Text = "Listen and Play Voice";
+            this.Text = "Listen and Play";
             this.ResumeLayout(false);
             this.PerformLayout();
 
