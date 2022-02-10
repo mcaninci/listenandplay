@@ -86,6 +86,7 @@ namespace listenandplay
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(543, 33);
             this.comboBox1.TabIndex = 3;
+            this.comboBox1.Text = "Select Microphone Item";
             // 
             // label1
             // 
