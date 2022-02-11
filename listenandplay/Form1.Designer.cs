@@ -64,7 +64,7 @@ namespace listenandplay
             this.btnstop.Name = "btnstop";
             this.btnstop.Size = new System.Drawing.Size(144, 47);
             this.btnstop.TabIndex = 2;
-            this.btnstop.Text = "Stop Listen";
+            this.btnstop.Text = "Stop";
             this.btnstop.UseVisualStyleBackColor = true;
             this.btnstop.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -91,7 +91,7 @@ namespace listenandplay
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 15;
+            this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label2
@@ -99,9 +99,9 @@ namespace listenandplay
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(42, 414);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(102, 25);
+            this.label2.Size = new System.Drawing.Size(82, 25);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Volume : ";
+            this.label2.Text = "Level : ";
             // 
             // label3
             // 
@@ -123,12 +123,13 @@ namespace listenandplay
             // 
             // label4
             // 
+            this.label4.AllowDrop = true;
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(42, 266);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(174, 25);
+            this.label4.Size = new System.Drawing.Size(154, 25);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Volume to Ignore";
+            this.label4.Text = "Level to Ignore";
             // 
             // label5
             // 

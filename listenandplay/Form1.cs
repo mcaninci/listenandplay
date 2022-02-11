@@ -62,7 +62,7 @@ namespace listenandplay
                     {
                         if (statusflag == -1)
                         {
-                            //lblstatus.AppendText("\nWaiting for the voice.");
+                            lblstatus.AppendText("\nListening");
                             statusflag = 0;
                         }
 
