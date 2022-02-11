@@ -32,7 +32,6 @@ namespace listenandplay
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.btnStart = new System.Windows.Forms.Button();
             this.btnstop = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,33 +48,23 @@ namespace listenandplay
             this.btnListen = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button1 = new System.Windows.Forms.Button();
-            this.lblstatus = new System.Windows.Forms.Label();
+            this.lblstatus = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(40, 576);
+            this.progressBar1.Location = new System.Drawing.Point(40, 458);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(1104, 113);
             this.progressBar1.TabIndex = 0;
             // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(56, 366);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(135, 47);
-            this.btnStart.TabIndex = 1;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.button1_Click);
-            // 
             // btnstop
             // 
-            this.btnstop.Location = new System.Drawing.Point(578, 366);
+            this.btnstop.Location = new System.Drawing.Point(556, 302);
             this.btnstop.Name = "btnstop";
             this.btnstop.Size = new System.Drawing.Size(144, 47);
             this.btnstop.TabIndex = 2;
-            this.btnstop.Text = "Stop";
+            this.btnstop.Text = "Stop Listen";
             this.btnstop.UseVisualStyleBackColor = true;
             this.btnstop.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -87,6 +76,8 @@ namespace listenandplay
             this.comboBox1.Size = new System.Drawing.Size(543, 33);
             this.comboBox1.TabIndex = 3;
             this.comboBox1.Text = "Select Microphone Item";
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
             // label1
             // 
@@ -100,13 +91,13 @@ namespace listenandplay
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 1;
+            this.timer1.Interval = 15;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 516);
+            this.label2.Location = new System.Drawing.Point(42, 414);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(102, 25);
             this.label2.TabIndex = 5;
@@ -115,7 +106,7 @@ namespace listenandplay
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(167, 513);
+            this.label3.Location = new System.Drawing.Point(150, 414);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(24, 25);
             this.label3.TabIndex = 6;
@@ -123,7 +114,7 @@ namespace listenandplay
             // 
             // ignoretxt
             // 
-            this.ignoretxt.Location = new System.Drawing.Point(291, 510);
+            this.ignoretxt.Location = new System.Drawing.Point(40, 318);
             this.ignoretxt.Name = "ignoretxt";
             this.ignoretxt.Size = new System.Drawing.Size(164, 31);
             this.ignoretxt.TabIndex = 7;
@@ -133,7 +124,7 @@ namespace listenandplay
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(286, 462);
+            this.label4.Location = new System.Drawing.Point(42, 266);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(174, 25);
             this.label4.TabIndex = 8;
@@ -144,27 +135,27 @@ namespace listenandplay
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(35, 98);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(241, 25);
+            this.label5.Size = new System.Drawing.Size(196, 25);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Silence Time (Second): ";
+            this.label5.Text = "Silence Time (ms): ";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(329, 98);
+            this.label6.Location = new System.Drawing.Point(309, 98);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(213, 25);
+            this.label6.Size = new System.Drawing.Size(168, 25);
             this.label6.TabIndex = 10;
-            this.label6.Text = "Delay Time(Second):";
+            this.label6.Text = "Delay Time(ms):";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(577, 98);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(145, 25);
+            this.label7.Size = new System.Drawing.Size(150, 25);
             this.label7.TabIndex = 11;
-            this.label7.Text = "Voice for Play";
+            this.label7.Text = "Select wav file";
             // 
             // txtsilence
             // 
@@ -186,11 +177,11 @@ namespace listenandplay
             // 
             // btnListen
             // 
-            this.btnListen.Location = new System.Drawing.Point(314, 366);
+            this.btnListen.Location = new System.Drawing.Point(254, 302);
             this.btnListen.Name = "btnListen";
-            this.btnListen.Size = new System.Drawing.Size(141, 47);
+            this.btnListen.Size = new System.Drawing.Size(223, 47);
             this.btnListen.TabIndex = 14;
-            this.btnListen.Text = "Listen";
+            this.btnListen.Text = "Set Level && Listen";
             this.btnListen.UseVisualStyleBackColor = true;
             this.btnListen.Click += new System.EventHandler(this.btnListen_Click);
             // 
@@ -214,11 +205,12 @@ namespace listenandplay
             // 
             // lblstatus
             // 
-            this.lblstatus.AutoSize = true;
-            this.lblstatus.Location = new System.Drawing.Point(35, 726);
+            this.lblstatus.Location = new System.Drawing.Point(40, 608);
             this.lblstatus.Name = "lblstatus";
-            this.lblstatus.Size = new System.Drawing.Size(0, 25);
-            this.lblstatus.TabIndex = 16;
+            this.lblstatus.ReadOnly = true;
+            this.lblstatus.Size = new System.Drawing.Size(1104, 182);
+            this.lblstatus.TabIndex = 17;
+            this.lblstatus.Text = "";
             // 
             // Form1
             // 
@@ -240,7 +232,6 @@ namespace listenandplay
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.btnstop);
-            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.progressBar1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -256,7 +247,6 @@ namespace listenandplay
         #endregion
 
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnstop;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
@@ -273,7 +263,8 @@ namespace listenandplay
         private System.Windows.Forms.Button btnListen;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label lblstatus;
+
+        private System.Windows.Forms.RichTextBox lblstatus;
     }
 }
 
