@@ -21,7 +21,7 @@ namespace listenandplay
         private WaveOutEvent player;
         private bool listining = false;
         private Stopwatch stopWatch;
-        private Stopwatch stopWatchDelay;
+        private Stopwatch stopWatchVoice;
         private int silince, delay;
         private string voicePath;
         private CancellationTokenSource cancellationToken;
@@ -32,7 +32,7 @@ namespace listenandplay
             var device = enumerator.EnumerateAudioEndPoints(DataFlow.Capture, DeviceState.Active);
             comboBox1.Items.AddRange(device.ToArray());
             stopWatch = new Stopwatch();
-            stopWatchDelay = new Stopwatch();
+            stopWatchVoice = new Stopwatch();
             player = new WaveOutEvent();
             cancellationToken = new CancellationTokenSource();
 
@@ -62,12 +62,19 @@ namespace listenandplay
                     {
                         if (statusflag == -1)
                         {
-                            lblstatus.AppendText("\nWaiting for the voice.");
+                            //lblstatus.AppendText("\nWaiting for the voice.");
                             statusflag = 0;
                         }
 
                         if ((devicevalue - ignore) > 0)
                         {
+                            if (!stopWatchVoice.IsRunning)
+                            {
+                                stopWatchVoice.Start();
+                            }
+                          
+                            TimeSpan tsvoice = stopWatchVoice.Elapsed;
+                            if (tsvoice.Seconds >= 1) { 
                             firstVoice = true;
                             if (statusflag != 1)
                             {
@@ -76,16 +83,19 @@ namespace listenandplay
                             }
 
                             stopWatch.Stop();
+                            }
                         }
                         else if (firstVoice && (devicevalue - ignore) < 0)
                         {
+                            stopWatchVoice.Stop();
+                            stopWatchVoice.Reset();
                             if (statusflag != 2)
                             {
                                 lblstatus.AppendText("\nSound has ended.");
                                 statusflag = 2;
                             }
 
-
+                           
                             stopWatch.Start();
 
 
