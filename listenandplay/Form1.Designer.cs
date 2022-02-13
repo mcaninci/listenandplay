@@ -75,7 +75,7 @@ namespace listenandplay
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(543, 33);
             this.comboBox1.TabIndex = 3;
-            this.comboBox1.Text = "Select Microphone Item";
+            this.comboBox1.Text = "Select Input Device";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
@@ -239,7 +239,7 @@ namespace listenandplay
             this.MaximumSize = new System.Drawing.Size(1296, 873);
             this.MinimumSize = new System.Drawing.Size(1296, 873);
             this.Name = "Form1";
-            this.Text = "Listen and Play";
+            this.Text = "Listen and Play V1.3";
             this.ResumeLayout(false);
             this.PerformLayout();
 
