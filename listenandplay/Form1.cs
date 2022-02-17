@@ -56,13 +56,22 @@ namespace listenandplay
                 if (devicevalue > 0)
                 {
 
+                    this.label3.BeginInvoke((MethodInvoker)delegate ()
+                    {
+                        label3.Text = ((devicevalue - ignore) < 0 ? 0 : devicevalue - ignore).ToString();
 
-                    label3.Text = ((devicevalue - ignore) < 0 ? 0 : devicevalue - ignore).ToString();
+                    });
+
                     if (listining)
                     {
                         if (statusflag == -1)
                         {
-                            lblstatus.AppendText("\nListening");
+
+                            this.lblstatus.BeginInvoke((MethodInvoker)delegate ()
+                            {
+
+                                lblstatus.AppendText("\nListening");
+                            });
                             statusflag = 0;
                         }
 
@@ -72,40 +81,60 @@ namespace listenandplay
                             {
                                 stopWatchVoice.Start();
                             }
-                          
-                            TimeSpan tsvoice = stopWatchVoice.Elapsed;
-                            if (tsvoice.Seconds >= 1) { 
-                            firstVoice = true;
-                            if (statusflag != 1)
-                            {
-                                lblstatus.AppendText("\nSound Detected");
-                                statusflag = 1;
-                            }
 
-                            stopWatch.Stop();
+                            TimeSpan tsvoice = stopWatchVoice.Elapsed;
+                        
+                            if (tsvoice.TotalMilliseconds > 1000)
+                            {
+
+                                stopWatch.Stop();
+                        
+                                firstVoice = true;
+                                if (statusflag != 1)
+                                {
+
+                                    this.lblstatus.BeginInvoke((MethodInvoker)delegate ()
+                                    {
+
+                                        lblstatus.AppendText("\nSound Detected");
+                                    });
+                                    statusflag = 1;
+                                }
+
                             }
                         }
-                        else if (firstVoice && (devicevalue - ignore) < 0)
+                        else if (firstVoice && (devicevalue - ignore) <= 0)
                         {
+
                             stopWatchVoice.Stop();
                             stopWatchVoice.Reset();
                             if (statusflag != 2)
                             {
-                                lblstatus.AppendText("\nSound has ended.");
+                                this.lblstatus.BeginInvoke((MethodInvoker)delegate ()
+                                {
+
+                                    lblstatus.AppendText("\nSound has ended.");
+                                });
                                 statusflag = 2;
                             }
 
-                           
+
                             stopWatch.Start();
 
 
                         }
+                        else
+                        {
+                            stopWatchVoice.Stop();
+                            stopWatchVoice.Reset();
+                        }
                         TimeSpan ts = stopWatch.Elapsed;
 
-                        if (ts.Milliseconds > silince)
+                        if (ts.TotalMilliseconds > silince)
                         {
+
                             recorder.StopRecording();
-                         
+
                             listining = false;
 
                             firstVoice = false;
@@ -113,71 +142,86 @@ namespace listenandplay
                             //wait delay time and play music
                             stopWatch.Stop();
                             stopWatch.Reset();
-                        
+
                             if (statusflag != 3)
                             {
-                                this.lblstatus.AppendText("\nDelay started");
+                                this.lblstatus.BeginInvoke((MethodInvoker)delegate ()
+                                {
+                                    this.lblstatus.AppendText("\nDelay started");
+                                });
+
                                 statusflag = 3;
                             }
-                       
+
                             playThread = Task.Run(async () =>
                                               {
                                                   if (!cancellationToken.IsCancellationRequested)
                                                   {
                                                       Thread.Sleep(delay);
-                                                      
+
                                                       playVoice();
 
                                                       this.lblstatus.BeginInvoke((MethodInvoker)delegate ()
                                                      {
-                                                      if (statusflag != 4)
-                                                      {
-                                                          this.lblstatus.AppendText("\nWave File Playing");
-                                                          statusflag = 4;
-                                                      }
+                                                         if (statusflag != 4)
+                                                         {
+                                                             this.lblstatus.AppendText("\nWave File Playing");
+                                                             statusflag = 4;
+                                                         }
 
-                                                         });
-                                                   
+                                                     });
+
                                                   }
 
 
                                               }, cancellationToken.Token);
-                           
+
 
 
                         }
+
                     }
 
                 }
-                progressBar1.Value = (devicevalue - ignore) < 0 ? 0 : devicevalue - ignore;
+                this.progressBar1.BeginInvoke((MethodInvoker)delegate ()
+                {
+                    progressBar1.Value = (devicevalue - ignore) < 0 ? 0 : devicevalue - ignore;
+
+                });
+
             }
         }
 
 
         private void playVoice()
         {
-            timer1.Stop();
             WaveStream mainOutputStream = new WaveFileReader(voicePath);
             WaveChannel32 volumeStream = new WaveChannel32(mainOutputStream);
             volumeStream.PadWithZeroes = false;
             player = new WaveOutEvent();
             player.Init(volumeStream);
-          
+
             player.PlaybackStopped += new EventHandler<StoppedEventArgs>(audioOutput_PlaybackStopped);
             player.Play();
-          
+
+            timer1.Stop();
 
         }
 
-        private  void audioOutput_PlaybackStopped(object sender, StoppedEventArgs e)
+        private void audioOutput_PlaybackStopped(object sender, StoppedEventArgs e)
         {
             recorder.StartRecording();
-            this.lblstatus.BeginInvoke((MethodInvoker)delegate () { Thread.Sleep(1000); this.lblstatus.Clear();  timer1.Start();});
-          
+            this.lblstatus.BeginInvoke((MethodInvoker)delegate ()
+            {
+                Thread.Sleep(100);
+                this.lblstatus.Clear();
+                timer1.Start();
+            });
+
             firstVoice = false;
             statusflag = -1;
             listining = true;
-            
+
 
         }
 
@@ -197,13 +241,13 @@ namespace listenandplay
             listining = false;
             firstVoice = false;
             statusflag = -1;
-     
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
-            label7.Text = "Selected wav file : " + (string.IsNullOrEmpty(openFileDialog1.FileName) ? "You have to select voice file" : openFileDialog1.FileName);
+            label7.Text = "Selected wav file : " + (string.IsNullOrEmpty(openFileDialog1.FileName) ? "You have to select wav file" : openFileDialog1.FileName);
             if (string.IsNullOrEmpty(openFileDialog1.FileName))
             {
                 btnListen.Enabled = false;
